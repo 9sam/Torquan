@@ -5,7 +5,7 @@ function playGame() {
         showLogin();
         return;
     }
-    window.location.href = '/game.html';
+    window.location.href = 'game.html';
 }
 
 // Close modals when clicking outside
