@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torquan - Game</title>
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="renderCanvas"></canvas>
+
+        <!-- Game UI -->
+        <div class="game-ui">
+            <!-- Top Bar -->
+            <div class="game-top-bar">
+                <div class="game-logo">
+                    <i class="fas fa-cube"></i>
+                    <span>Torquan</span>
+                </div>
+                <div class="game-controls">
+                    <button class="game-btn" onclick="toggleChat()">
+                        <i class="fas fa-comment"></i>
+                    </button>
+                    <button class="game-btn" onclick="toggleSettings()">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="game-btn" onclick="exitGame()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat -->
+            <div class="chat-container" id="chatContainer">
+                <div class="chat-header">
+                    <span>Chat</span>
+                    <button class="close-btn" onclick="toggleChat()">&times;</button>
+                </div>
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="handleChatKeyPress(event)">
+                    <button onclick="sendChatMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Settings Panel -->
+            <div class="settings-panel" id="settingsPanel">
+                <div class="settings-header">
+                    <span>Settings</span>
+                    <button class="close-btn" onclick="toggleSettings()">&times;</button>
+                </div>
+                <div class="settings-content">
+                    <div class="setting-group">
+                        <label>Body Color</label>
+                        <input type="color" id="bodyColorPicker" value="#00ff00" onchange="changeBodyColor(this.value)">
+                    </div>
+                    <div class="setting-group">
+                        <label>Username</label>
+                        <span id="settingsUsername"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player List -->
+            <div class="player-list" id="playerList">
+                <div class="player-list-header">
+                    <span>Players Online</span>
+                </div>
+                <div class="player-list-content" id="playerListContent"></div>
+            </div>
+
+            <!-- Controls Help -->
+            <div class="controls-help">
+                <div class="help-item">
+                    <span class="key">W</span>
+                    <span>Move Forward</span>
+                </div>
+                <div class="help-item">
+                    <span class="key">S</span>
+                    <span>Move Backward</span>
+                </div>
+                <div class="help-item">
+                    <span class="key">A</span>
+                    <span>Move Left</span>
+                </div>
+                <div class="help-item">
+                    <span class="key">D</span>
+                    <span>Move Right</span>
+                </div>
+                <div class="help-item">
+                    <span class="key">Space</span>
+                    <span>Jump</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torquan - Play, Create, Share</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>Torquan</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active">Games</a>
+                <a href="#" class="nav-link">Catalog</a>
+                <a href="#" class="nav-link">People</a>
+                <a href="#" class="nav-link">Create</a>
+            </div>
+            <div class="nav-auth" id="navAuth">
+                <button class="btn btn-outline" onclick="showSignup()">Sign Up</button>
+                <button class="btn btn-primary" onclick="showLogin()">Log In</button>
+            </div>
+            <div class="nav-user" id="navUser" style="display: none;">
+                <div class="user-menu">
+                    <span id="navUsername">Username</span>
+                    <button class="btn btn-outline" onclick="logout()">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Torquan</h1>
+                <p>The ultimate 3D multiplayer experience. Play, chat, and customize your character!</p>
+                <button class="btn btn-large btn-primary" onclick="playGame()">
+                    <i class="fas fa-play"></i> Play Now
+                </button>
+            </div>
+            <div class="hero-image">
+                <div class="character-preview">
+                    <div class="blocky-character" id="heroCharacter">
+                        <div class="character-head">
+                            <div class="face">
+                                <div class="eye left"></div>
+                                <div class="eye right"></div>
+                                <div class="smile"></div>
+                            </div>
+                        </div>
+                        <div class="character-body"></div>
+                        <div class="character-arm left"></div>
+                        <div class="character-arm right"></div>
+                        <div class="character-leg left"></div>
+                        <div class="character-leg right"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Game -->
+        <section class="featured-game">
+            <div class="game-card">
+                <div class="game-thumbnail">
+                    <div class="game-preview"></div>
+                </div>
+                <div class="game-info">
+                    <h2>Torquan World</h2>
+                    <p>Explore the baseplate, meet other players, and chat in real-time!</p>
+                    <div class="game-stats">
+                        <span><i class="fas fa-users"></i> Playing</span>
+                        <span><i class="fas fa-heart"></i> Likes</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="playGame()">Play</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Auth Modals -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Log In</h2>
+                <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Log In</button>
+            </form>
+            <p class="auth-switch">
+                Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sign Up</h2>
+                <button class="close-btn" onclick="closeModal('signupModal')">&times;</button>
+            </div>
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="signupUsername" required minlength="3" maxlength="20">
+                    <small>Only letters, numbers, and underscores</small>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign Up</button>
+            </form>
+            <p class="auth-switch">
+                Already have an account? <a href="#" onclick="showLogin()">Log In</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

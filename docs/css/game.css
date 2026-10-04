@@ -1,0 +1,365 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Source Sans Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 300;
+    overflow: hidden;
+    background-color: #000;
+}
+
+#gameContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+#renderCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Game UI */
+.game-ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.game-ui > * {
+    pointer-events: auto;
+}
+
+/* Top Bar - 2016 Roblox Style */
+.game-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 8px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    border-bottom: 1px solid #333;
+}
+
+.game-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.game-logo i {
+    color: #00b06f;
+}
+
+.game-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.game-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #444;
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.game-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Chat - 2016 Roblox Style */
+.chat-container {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 350px;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 0;
+    border: 1px solid #444;
+    display: none;
+    flex-direction: column;
+    color: white;
+}
+
+.chat-container.active {
+    display: flex;
+}
+
+.chat-header {
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 400;
+    border-bottom: 1px solid #444;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chat-message {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0;
+}
+
+.chat-message .username {
+    font-weight: 400;
+    color: #00b06f;
+    margin-right: 8px;
+}
+
+.chat-message .message {
+    color: #fff;
+}
+
+.chat-message .time {
+    font-size: 11px;
+    color: #888;
+    margin-left: 8px;
+}
+
+.chat-input {
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #444;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #444;
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+}
+
+.chat-input input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.chat-input button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 0;
+    background: #00b06f;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-input button:hover {
+    background: #00965f;
+}
+
+/* Settings Panel - 2016 Roblox Style */
+.settings-panel {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    width: 300px;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 0;
+    border: 1px solid #444;
+    display: none;
+    flex-direction: column;
+    color: white;
+}
+
+.settings-panel.active {
+    display: flex;
+}
+
+.settings-header {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 400;
+    border-bottom: 1px solid #444;
+}
+
+.settings-content {
+    padding: 15px;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.setting-group input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #444;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.setting-group span {
+    font-size: 14px;
+    color: #888;
+}
+
+/* Player List - 2016 Roblox Style */
+.player-list {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    width: 200px;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 0;
+    border: 1px solid #444;
+    color: white;
+}
+
+.player-list-header {
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: 400;
+    font-size: 14px;
+    border-bottom: 1px solid #444;
+}
+
+.player-list-content {
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.player-item {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 0;
+    margin-bottom: 5px;
+}
+
+.player-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.player-item .player-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 0;
+}
+
+.player-item .player-name {
+    font-size: 14px;
+}
+
+/* Controls Help - 2016 Roblox Style */
+.controls-help {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 15px;
+    border-radius: 0;
+    border: 1px solid #444;
+    color: white;
+}
+
+.help-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.help-item:last-child {
+    margin-bottom: 0;
+}
+
+.key {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 0;
+    border: 1px solid #444;
+    font-family: monospace;
+    font-weight: 400;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .chat-container {
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        height: 300px;
+    }
+
+    .settings-panel {
+        width: calc(100% - 40px);
+        right: 20px;
+        left: 20px;
+    }
+
+    .player-list {
+        display: none;
+    }
+
+    .controls-help {
+        display: none;
+    }
+
+    .game-logo span {
+        display: none;
+    }
+}
