@@ -1,11 +1,5 @@
-// API Base URL
-let API_BASE = '/api/auth';
-
-// Will be updated by config.js if loaded
-if (window.API_BASE) {
-    API_BASE = window.API_BASE + '/auth';
-}
-
+// Auth API address (API_BASE comes from config.js)
+const AUTH_API = (typeof API_BASE !== 'undefined' ? API_BASE : '/api') + '/auth';
 // Token storage
 let token = localStorage.getItem('token');
 let user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -52,7 +46,7 @@ async function handleSignup(event) {
     const password = document.getElementById('signupPassword').value;
 
     try {
-        const response = await fetch(`${API_BASE}/signup`, {
+        const response = await fetch(`${AUTH_API}/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -82,7 +76,7 @@ async function handleLogin(event) {
     const password = document.getElementById('loginPassword').value;
 
     try {
-        const response = await fetch(`${API_BASE}/signin`, {
+        const response = await fetch(`${AUTH_API}/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
