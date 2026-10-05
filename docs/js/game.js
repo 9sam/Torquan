@@ -13,14 +13,13 @@ let socket;
 let players = new Map();
 let keys = {};
 let isJumping = false;
-let user = JSON.parse(localStorage.getItem('user') || 'null');
-let token = localStorage.getItem('token');
+// token and user are already declared in auth.js
 
 // Initialize Game
 document.addEventListener('DOMContentLoaded', () => {
     if (!token || !user) {
         alert('Please log in to play');
-        window.location.href = '/';
+        window.location.href = 'index.html';
         return;
     }
 
@@ -325,7 +324,7 @@ function toggleSettings() {
 
 function exitGame() {
     if (confirm('Are you sure you want to exit the game?')) {
-        window.location.href = '/';
+        window.location.href = 'index.html';
     }
 }
 
