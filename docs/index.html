@@ -16,9 +16,11 @@
             </div>
             <div class="nav-links">
                 <a href="#" class="nav-link active">Games</a>
-                <a href="#" class="nav-link">Catalog</a>
                 <a href="#" class="nav-link">People</a>
                 <a href="#" class="nav-link">Create</a>
+            </div>
+            <div class="nav-stats">
+                <span id="onlineCount"><i class="fas fa-users"></i> <span id="onlineUsers">0</span> Online</span>
             </div>
             <div class="nav-auth" id="navAuth">
                 <button class="btn btn-outline" onclick="showSignup()">Sign Up</button>
@@ -39,9 +41,14 @@
             <div class="hero-content">
                 <h1>Welcome to Torquan</h1>
                 <p>The ultimate 3D multiplayer experience. Play, chat, and customize your character!</p>
-                <button class="btn btn-large btn-primary" onclick="playGame()">
-                    <i class="fas fa-play"></i> Play Now
-                </button>
+                <div class="hero-buttons">
+                    <button class="btn btn-large btn-primary" onclick="playGame()">
+                        <i class="fas fa-play"></i> Play Now
+                    </button>
+                    <button class="btn btn-large btn-outline" onclick="playAsGuest()">
+                        <i class="fas fa-user-secret"></i> Play as Guest
+                    </button>
+                </div>
             </div>
             <div class="hero-image">
                 <div class="character-preview">
@@ -73,8 +80,8 @@
                     <h2>Torquan World</h2>
                     <p>Explore the baseplate, meet other players, and chat in real-time!</p>
                     <div class="game-stats">
-                        <span><i class="fas fa-users"></i> Playing</span>
-                        <span><i class="fas fa-heart"></i> Likes</span>
+                        <span><i class="fas fa-users"></i> <span id="playingCount">0</span> Playing</span>
+                        <span><i class="fas fa-heart" id="likeIcon" onclick="toggleLike()"></i> <span id="likeCount">0</span> Likes</span>
                     </div>
                     <button class="btn btn-primary" onclick="playGame()">Play</button>
                 </div>

@@ -22,11 +22,8 @@
                     <span>Torquan</span>
                 </div>
                 <div class="game-controls">
-                    <button class="game-btn" onclick="toggleChat()">
-                        <i class="fas fa-comment"></i>
-                    </button>
-                    <button class="game-btn" onclick="toggleSettings()">
-                        <i class="fas fa-cog"></i>
+                    <button class="game-btn" onclick="toggleTorquanMenu()">
+                        <i class="fas fa-bars"></i>
                     </button>
                     <button class="game-btn" onclick="exitGame()">
                         <i class="fas fa-sign-out-alt"></i>
@@ -34,8 +31,8 @@
                 </div>
             </div>
 
-            <!-- Chat -->
-            <div class="chat-container" id="chatContainer">
+            <!-- Chat (always visible in top left) -->
+            <div class="chat-container active" id="chatContainer">
                 <div class="chat-header">
                     <span>Chat</span>
                     <button class="close-btn" onclick="toggleChat()">&times;</button>
@@ -49,30 +46,49 @@
                 </div>
             </div>
 
-            <!-- Settings Panel -->
-            <div class="settings-panel" id="settingsPanel">
-                <div class="settings-header">
-                    <span>Settings</span>
-                    <button class="close-btn" onclick="toggleSettings()">&times;</button>
+            <!-- Torquan Menu Panel -->
+            <div class="torquan-menu" id="torquanMenu">
+                <div class="menu-header">
+                    <span>Torquan Menu</span>
+                    <button class="close-btn" onclick="toggleTorquanMenu()">&times;</button>
                 </div>
-                <div class="settings-content">
-                    <div class="setting-group">
-                        <label>Body Color</label>
-                        <input type="color" id="bodyColorPicker" value="#00ff00" onchange="changeBodyColor(this.value)">
+                <div class="menu-tabs">
+                    <button class="menu-tab active" onclick="showMenuTab('players')">Players</button>
+                    <button class="menu-tab" onclick="showMenuTab('graphics')">Graphics</button>
+                    <button class="menu-tab" onclick="showMenuTab('avatar')">Avatar</button>
+                </div>
+                <div class="menu-content">
+                    <!-- Players Tab -->
+                    <div class="menu-tab-content active" id="playersTab">
+                        <div class="player-list-content" id="playerListContent"></div>
                     </div>
-                    <div class="setting-group">
-                        <label>Username</label>
-                        <span id="settingsUsername"></span>
+                    <!-- Graphics Tab -->
+                    <div class="menu-tab-content" id="graphicsTab">
+                        <div class="setting-group">
+                            <label>Graphics Quality</label>
+                            <select id="graphicsQuality" onchange="changeGraphicsQuality(this.value)">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label>Shadows</label>
+                            <input type="checkbox" id="shadowsEnabled" onchange="toggleShadows(this.checked)">
+                        </div>
+                    </div>
+                    <!-- Avatar Tab -->
+                    <div class="menu-tab-content" id="avatarTab">
+                        <div class="setting-group">
+                            <label>Body Color</label>
+                            <input type="color" id="bodyColorPicker" value="#00ff00" onchange="changeBodyColor(this.value)">
+                        </div>
+                        <div class="setting-group">
+                            <label>Username</label>
+                            <span id="settingsUsername"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Player List -->
-            <div class="player-list" id="playerList">
-                <div class="player-list-header">
-                    <span>Players Online</span>
-                </div>
-                <div class="player-list-content" id="playerListContent"></div>
             </div>
 
             <!-- Controls Help -->
@@ -96,6 +112,20 @@
                 <div class="help-item">
                     <span class="key">Space</span>
                     <span>Jump</span>
+                </div>
+            </div>
+
+            <!-- Mobile Controls -->
+            <div class="mobile-controls" id="mobileControls">
+                <div class="joystick-container">
+                    <div class="joystick" id="joystick">
+                        <div class="joystick-knob" id="joystickKnob"></div>
+                    </div>
+                </div>
+                <div class="mobile-actions">
+                    <button class="mobile-btn jump-btn" id="jumpBtn">
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
                 </div>
             </div>
         </div>
