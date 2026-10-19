@@ -13,6 +13,7 @@ let socket;
 let players = new Map();
 let keys = {};
 let isJumping = false;
+let isMoving = false;
 // token and user are already declared in auth.js
 
 // Camera controls
@@ -22,6 +23,11 @@ let cameraHeight = 4;
 let shiftLock = false;
 let isRightMouseDown = false;
 let lastMouseX = 0;
+let lastMouseY = 0;
+
+// Animation
+let walkCycle = 0;
+let walkSpeed = 0.1;
 
 // Initialize Game
 document.addEventListener('DOMContentLoaded', () => {
@@ -112,100 +118,70 @@ function createBaseplate() {
 function createBlockyCharacter(username, bodyColor) {
     const character = new BABYLON.TransformNode('character', scene);
 
-    // Body (trapezoidal shape using cylinder with tessellation)
-    const body = BABYLON.MeshBuilder.CreateCylinder('body', {
-        height: 1.2,
-        diameterTop: 0.8,
-        diameterBottom: 1.0,
-        tessellation: 4
-    }, scene);
+    // Body (Roblox-style blocky)
+    const body = BABYLON.MeshBuilder.CreateBox('body', { width: 1.0, height: 1.2, depth: 0.5 }, scene);
     body.position.y = 0.6;
-    body.rotation.y = Math.PI / 4;
     body.parent = character;
     const bodyMat = new BABYLON.StandardMaterial('bodyMat', scene);
     bodyMat.diffuseColor = BABYLON.Color3.FromHexString(bodyColor.replace('#', ''));
     body.material = bodyMat;
 
-    // Head (slightly larger, more rounded)
-    const head = BABYLON.MeshBuilder.CreateBox('head', { width: 0.9, height: 0.9, depth: 0.9 }, scene);
-    head.position.y = 1.75;
+    // Head (larger, blocky)
+    const head = BABYLON.MeshBuilder.CreateBox('head', { width: 1.0, height: 1.0, depth: 1.0 }, scene);
+    head.position.y = 1.7;
     head.parent = character;
     const headMat = new BABYLON.StandardMaterial('headMat', scene);
     headMat.diffuseColor = new BABYLON.Color3(1, 0.8, 0.6);
     head.material = headMat;
 
-    // Eyes (larger, more prominent)
+    // Eyes (classic Roblox style)
     const eyeMat = new BABYLON.StandardMaterial('eyeMat', scene);
     eyeMat.diffuseColor = new BABYLON.Color3(0, 0, 0);
 
-    const leftEye = BABYLON.MeshBuilder.CreateBox('leftEye', { width: 0.12, height: 0.12, depth: 0.06 }, scene);
-    leftEye.position = new BABYLON.Vector3(-0.18, 1.8, 0.42);
+    const leftEye = BABYLON.MeshBuilder.CreateBox('leftEye', { width: 0.15, height: 0.15, depth: 0.05 }, scene);
+    leftEye.position = new BABYLON.Vector3(-0.2, 1.75, 0.5);
     leftEye.parent = character;
     leftEye.material = eyeMat;
 
-    const rightEye = BABYLON.MeshBuilder.CreateBox('rightEye', { width: 0.12, height: 0.12, depth: 0.06 }, scene);
-    rightEye.position = new BABYLON.Vector3(0.18, 1.8, 0.42);
+    const rightEye = BABYLON.MeshBuilder.CreateBox('rightEye', { width: 0.15, height: 0.15, depth: 0.05 }, scene);
+    rightEye.position = new BABYLON.Vector3(0.2, 1.75, 0.5);
     rightEye.parent = character;
     rightEye.material = eyeMat;
 
-    // Smile (curved using multiple boxes)
+    // Smile (classic Roblox)
     const smileMat = new BABYLON.StandardMaterial('smileMat', scene);
     smileMat.diffuseColor = new BABYLON.Color3(0, 0, 0);
 
-    const smile = BABYLON.MeshBuilder.CreateBox('smile', { width: 0.35, height: 0.06, depth: 0.06 }, scene);
-    smile.position = new BABYLON.Vector3(0, 1.58, 0.42);
+    const smile = BABYLON.MeshBuilder.CreateBox('smile', { width: 0.4, height: 0.08, depth: 0.05 }, scene);
+    smile.position = new BABYLON.Vector3(0, 1.55, 0.5);
     smile.parent = character;
     smile.material = smileMat;
 
-    // Arms (tapered)
+    // Arms (blocky, larger)
     const armMat = new BABYLON.StandardMaterial('armMat', scene);
     armMat.diffuseColor = new BABYLON.Color3(1, 0.8, 0.6);
 
-    const leftArm = BABYLON.MeshBuilder.CreateCylinder('leftArm', {
-        height: 1.0,
-        diameterTop: 0.25,
-        diameterBottom: 0.35,
-        tessellation: 4
-    }, scene);
-    leftArm.position = new BABYLON.Vector3(-0.7, 0.6, 0);
-    leftArm.rotation.y = Math.PI / 4;
+    const leftArm = BABYLON.MeshBuilder.CreateBox('leftArm', { width: 0.4, height: 1.1, depth: 0.4 }, scene);
+    leftArm.position = new BABYLON.Vector3(-0.7, 0.55, 0);
     leftArm.parent = character;
     leftArm.material = armMat;
 
-    const rightArm = BABYLON.MeshBuilder.CreateCylinder('rightArm', {
-        height: 1.0,
-        diameterTop: 0.25,
-        diameterBottom: 0.35,
-        tessellation: 4
-    }, scene);
-    rightArm.position = new BABYLON.Vector3(0.7, 0.6, 0);
-    rightArm.rotation.y = Math.PI / 4;
+    const rightArm = BABYLON.MeshBuilder.CreateBox('rightArm', { width: 0.4, height: 1.1, depth: 0.4 }, scene);
+    rightArm.position = new BABYLON.Vector3(0.7, 0.55, 0);
     rightArm.parent = character;
     rightArm.material = armMat;
 
-    // Legs (tapered)
+    // Legs (blocky, larger)
     const legMat = new BABYLON.StandardMaterial('legMat', scene);
     legMat.diffuseColor = new BABYLON.Color3(0, 0.4, 0.8);
 
-    const leftLeg = BABYLON.MeshBuilder.CreateCylinder('leftLeg', {
-        height: 1.0,
-        diameterTop: 0.3,
-        diameterBottom: 0.4,
-        tessellation: 4
-    }, scene);
-    leftLeg.position = new BABYLON.Vector3(-0.25, -0.5, 0);
-    leftLeg.rotation.y = Math.PI / 4;
+    const leftLeg = BABYLON.MeshBuilder.CreateBox('leftLeg', { width: 0.4, height: 1.1, depth: 0.4 }, scene);
+    leftLeg.position = new BABYLON.Vector3(-0.3, -0.55, 0);
     leftLeg.parent = character;
     leftLeg.material = legMat;
 
-    const rightLeg = BABYLON.MeshBuilder.CreateCylinder('rightLeg', {
-        height: 1.0,
-        diameterTop: 0.3,
-        diameterBottom: 0.4,
-        tessellation: 4
-    }, scene);
-    rightLeg.position = new BABYLON.Vector3(0.25, -0.5, 0);
-    rightLeg.rotation.y = Math.PI / 4;
+    const rightLeg = BABYLON.MeshBuilder.CreateBox('rightLeg', { width: 0.4, height: 1.1, depth: 0.4 }, scene);
+    rightLeg.position = new BABYLON.Vector3(0.3, -0.55, 0);
     rightLeg.parent = character;
     rightLeg.material = legMat;
 
@@ -220,6 +196,7 @@ function initSocket() {
 
     socket.on('connect', () => {
         console.log('Connected to server with ID:', socket.id);
+        addChatMessage('System', 'Connected to game server!', true);
         socket.emit('joinGame', {
             userId: user.id,
             username: user.username,
@@ -283,6 +260,7 @@ function initSocket() {
     });
 
     socket.on('chatMessage', (data) => {
+        console.log('Received chat message:', data);
         addChatMessage(data.username, data.message);
     });
 }
@@ -385,17 +363,114 @@ function setupMobileControls() {
     }
 }
 
+function setupCameraControls() {
+    // Mouse rotation (hold right-click to rotate camera)
+    canvas.addEventListener('mousedown', (e) => {
+        if (e.button === 2) { // Right click
+            isRightMouseDown = true;
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+        }
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+        if (e.button === 2) {
+            isRightMouseDown = false;
+        }
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (isRightMouseDown) {
+            const deltaX = e.clientX - lastMouseX;
+            const deltaY = e.clientY - lastMouseY;
+
+            cameraRotation += deltaX * 0.005;
+            camera.beta += deltaY * 0.005;
+
+            // Clamp vertical rotation
+            camera.beta = Math.max(0.1, Math.min(Math.PI / 2 - 0.1, camera.beta));
+
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+        }
+    });
+
+    // Prevent context menu on right-click
+    canvas.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+
+    // Shift lock
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Shift') {
+            shiftLock = true;
+        }
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if (e.key === 'Shift') {
+            shiftLock = false;
+        }
+    });
+
+    // Zoom with scroll
+    canvas.addEventListener('wheel', (e) => {
+        cameraDistance += e.deltaY * 0.01;
+        cameraDistance = Math.max(3, Math.min(20, cameraDistance));
+    });
+}
+
+function updateCamera() {
+    if (!player || !camera) return;
+
+    // Update camera to follow player
+    camera.setTarget(player.position);
+    camera.radius = cameraDistance;
+
+    // Apply camera rotation
+    camera.alpha = cameraRotation;
+
+    // Update player rotation to face camera direction when moving (if shift lock)
+    if (shiftLock) {
+        player.rotation.y = cameraRotation + Math.PI;
+    }
+}
+
 function updatePlayerMovement() {
-    if (!player) return;
+    if (!player || !camera) return;
+
+    // Get camera direction
+    const cameraDirection = camera.getDirection(new BABYLON.Vector3(0, 0, 1));
+    cameraDirection.y = 0;
+    cameraDirection.normalize();
+
+    // Calculate right vector (perpendicular to camera direction)
+    const cameraRight = new BABYLON.Vector3(
+        cameraDirection.z,
+        0,
+        -cameraDirection.x
+    );
 
     const moveDirection = new BABYLON.Vector3(0, 0, 0);
 
-    if (keys['w']) moveDirection.z += 1;
-    if (keys['s']) moveDirection.z -= 1;
-    if (keys['a']) moveDirection.x -= 1;
-    if (keys['d']) moveDirection.x += 1;
+    // Camera-relative movement
+    if (keys['w']) {
+        moveDirection.addInPlace(cameraDirection);
+    }
+    if (keys['s']) {
+        moveDirection.subtractInPlace(cameraDirection);
+    }
+    if (keys['a']) {
+        moveDirection.subtractInPlace(cameraRight);
+    }
+    if (keys['d']) {
+        moveDirection.addInPlace(cameraRight);
+    }
 
-    if (moveDirection.length() > 0) {
+    // Check if moving
+    isMoving = moveDirection.length() > 0;
+
+    if (isMoving) {
         moveDirection.normalize();
         player.position.x += moveDirection.x * CONFIG.moveSpeed;
         player.position.z += moveDirection.z * CONFIG.moveSpeed;
@@ -403,6 +478,10 @@ function updatePlayerMovement() {
         // Rotate player to face movement direction
         const angle = Math.atan2(moveDirection.x, moveDirection.z);
         player.rotation.y = angle;
+
+        // Walking animation
+        walkCycle += walkSpeed;
+        animateWalk();
 
         // Emit movement to server
         socket.emit('playerMove', {
@@ -417,6 +496,9 @@ function updatePlayerMovement() {
                 z: player.rotation.z
             }
         });
+    } else {
+        // Reset animation when not moving
+        resetAnimation();
     }
 
     // Jump
@@ -437,6 +519,39 @@ function updatePlayerMovement() {
     const halfSize = CONFIG.baseplateSize / 2;
     player.position.x = Math.max(-halfSize, Math.min(halfSize, player.position.x));
     player.position.z = Math.max(-halfSize, Math.min(halfSize, player.position.z));
+}
+
+function animateWalk() {
+    // Get body, arms, and legs
+    const body = player.getChildren().find(c => c.name === 'body');
+    const leftArm = player.getChildren().find(c => c.name === 'leftArm');
+    const rightArm = player.getChildren().find(c => c.name === 'rightArm');
+    const leftLeg = player.getChildren().find(c => c.name === 'leftLeg');
+    const rightLeg = player.getChildren().find(c => c.name === 'rightLeg');
+
+    if (leftArm && rightArm && leftLeg && rightLeg) {
+        // Animate arms (swing back and forth)
+        leftArm.rotation.x = Math.sin(walkCycle) * 0.5;
+        rightArm.rotation.x = Math.sin(walkCycle + Math.PI) * 0.5;
+
+        // Animate legs (opposite to arms)
+        leftLeg.rotation.x = Math.sin(walkCycle + Math.PI) * 0.5;
+        rightLeg.rotation.x = Math.sin(walkCycle) * 0.5;
+    }
+}
+
+function resetAnimation() {
+    const leftArm = player.getChildren().find(c => c.name === 'leftArm');
+    const rightArm = player.getChildren().find(c => c.name === 'rightArm');
+    const leftLeg = player.getChildren().find(c => c.name === 'leftLeg');
+    const rightLeg = player.getChildren().find(c => c.name === 'rightLeg');
+
+    if (leftArm && rightArm && leftLeg && rightLeg) {
+        leftArm.rotation.x = 0;
+        rightArm.rotation.x = 0;
+        leftLeg.rotation.x = 0;
+        rightLeg.rotation.x = 0;
+    }
 }
 
 // UI Functions
@@ -494,8 +609,11 @@ function sendChatMessage() {
     const message = input.value.trim();
 
     if (message) {
+        console.log('Sending chat message:', message);
         socket.emit('chatMessage', { message });
         input.value = '';
+    } else {
+        console.log('Empty message, not sending');
     }
 }
 
