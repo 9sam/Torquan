@@ -18,7 +18,7 @@ const io = socketIo(server, {
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('public')); // For local development
 app.use(session({
   secret: process.env.SESSION_SECRET || 'torquan-secret',
   resave: false,
@@ -88,6 +88,7 @@ io.on('connection', (socket) => {
 
   // Chat messages
   socket.on('chatMessage', (data) => {
+    console.log('Chat message received from', socket.id, ':', data);
     const player = connectedPlayers.get(socket.id);
     if (player) {
       const message = {
@@ -95,7 +96,10 @@ io.on('connection', (socket) => {
         message: data.message,
         timestamp: new Date().toISOString()
       };
+      console.log('Broadcasting chat message:', message);
       io.emit('chatMessage', message);
+    } else {
+      console.log('Player not found for chat message');
     }
   });
 
