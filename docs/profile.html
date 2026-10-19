@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torquan - Profile</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>Torquan</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Games</a>
+                <a href="users.html" class="nav-link">People</a>
+                <a href="#" class="nav-link">Create</a>
+            </div>
+            <div class="nav-auth" id="navAuth">
+                <button class="btn btn-outline" onclick="showSignup()">Sign Up</button>
+                <button class="btn btn-primary" onclick="showLogin()">Log In</button>
+            </div>
+            <div class="nav-user" id="navUser" style="display: none;">
+                <div class="user-menu">
+                    <span id="navUsername">Username</span>
+                    <button class="btn btn-outline" onclick="logout()">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="profile-section">
+            <div class="profile-header">
+                <div class="profile-avatar-large" id="profileAvatar">
+                    <div class="avatar-face-large">
+                        <div class="avatar-eye-large left"></div>
+                        <div class="avatar-eye-large right"></div>
+                        <div class="avatar-smile-large"></div>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h1 id="profileUsername">Username</h1>
+                    <p id="profileJoined">Joined: --</p>
+                    <p id="profileUserId">User ID: --</p>
+                </div>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Games Played</span>
+                    <span class="stat-value">0</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <span>Friends</span>
+                    <span class="stat-value">0</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <span>Play Time</span>
+                    <span class="stat-value">0h</span>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <button class="btn btn-primary" onclick="playGame()">
+                    <i class="fas fa-play"></i> Play with User
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torquan - Users</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>Torquan</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Games</a>
+                <a href="users.html" class="nav-link active">People</a>
+                <a href="#" class="nav-link">Create</a>
+            </div>
+            <div class="nav-auth" id="navAuth">
+                <button class="btn btn-outline" onclick="showSignup()">Sign Up</button>
+                <button class="btn btn-primary" onclick="showLogin()">Log In</button>
+            </div>
+            <div class="nav-user" id="navUser" style="display: none;">
+                <div class="user-menu">
+                    <span id="navUsername">Username</span>
+                    <button class="btn btn-outline" onclick="logout()">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="users-section">
+            <h1>Torquan Users</h1>
+            <p>Meet the community!</p>
+            <div class="users-grid" id="usersGrid">
+                <div class="loading">Loading users...</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/users.js"></script>
+</body>
+</html>
