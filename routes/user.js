@@ -69,4 +69,18 @@ router.get('/profile/:username', async (req, res) => {
   }
 });
 
+// Get all users (for user list)
+router.get('/all', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id, username, body_color, created_at FROM users ORDER BY created_at DESC LIMIT 100'
+    );
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Get all users error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 module.exports = router;
