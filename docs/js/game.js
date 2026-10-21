@@ -192,7 +192,10 @@ function createBlockyCharacter(username, bodyColor) {
 function initSocket() {
     const socketUrl = window.SOCKET_URL || 'http://localhost:3000';
     console.log('Connecting to socket at:', socketUrl);
-    socket = io(socketUrl);
+    socket = io(socketUrl, {
+        transports: ['websocket'],
+        upgrade: false
+    });
 
     socket.on('connect', () => {
         console.log('Connected to server with ID:', socket.id);
@@ -390,6 +393,10 @@ function setupCameraControls() {
             // Clamp vertical rotation
             camera.beta = Math.max(0.1, Math.min(Math.PI / 2 - 0.1, camera.beta));
 
+            // Update camera
+            camera.alpha = cameraRotation;
+            camera.beta = camera.beta;
+
             lastMouseX = e.clientX;
             lastMouseY = e.clientY;
         }
@@ -417,6 +424,7 @@ function setupCameraControls() {
     canvas.addEventListener('wheel', (e) => {
         cameraDistance += e.deltaY * 0.01;
         cameraDistance = Math.max(3, Math.min(20, cameraDistance));
+        camera.radius = cameraDistance;
     });
 }
 

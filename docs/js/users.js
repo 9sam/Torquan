@@ -8,8 +8,12 @@ async function loadUsers() {
     const usersGrid = document.getElementById('usersGrid');
 
     try {
-        const response = await fetch((window.API_BASE || '/api') + '/user/all');
+        const apiBase = window.API_BASE || '/api';
+        console.log('Fetching users from:', apiBase + '/user/all');
+        const response = await fetch(apiBase + '/user/all');
         const users = await response.json();
+
+        console.log('Users loaded:', users);
 
         if (users.length === 0) {
             usersGrid.innerHTML = '<div class="no-users">No users yet. Be the first!</div>';
@@ -33,7 +37,7 @@ async function loadUsers() {
         `).join('');
     } catch (error) {
         console.error('Error loading users:', error);
-        usersGrid.innerHTML = '<div class="error">Failed to load users</div>';
+        usersGrid.innerHTML = '<div class="error">Failed to load users: ' + error.message + '</div>';
     }
 }
 

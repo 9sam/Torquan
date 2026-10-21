@@ -1,0 +1,264 @@
+/* Avatar Editor Styles */
+.avatar-editor-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.avatar-editor-section h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+.avatar-editor-section p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.editor-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.avatar-preview-large {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    background: var(--gray-light);
+    padding: 40px;
+    border: 1px solid var(--border-color);
+}
+
+.character-preview-large {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blocky-character-large {
+    position: relative;
+    width: 150px;
+    height: 250px;
+}
+
+.character-head-large {
+    width: 75px;
+    height: 75px;
+    background-color: #ffcc99;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0;
+    border: 1px solid #000;
+}
+
+.face-large {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.eye-large {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #000;
+    border-radius: 0;
+    top: 25px;
+}
+
+.eye-large.left {
+    left: 15px;
+}
+
+.eye-large.right {
+    right: 15px;
+}
+
+.smile-large {
+    position: absolute;
+    width: 30px;
+    height: 8px;
+    background-color: #000;
+    border-radius: 0;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.character-body-large {
+    width: 62px;
+    height: 75px;
+    background-color: #00ff00;
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0;
+    border: 1px solid #000;
+}
+
+.character-arm-large {
+    width: 25px;
+    height: 62px;
+    background-color: #ffcc99;
+    position: absolute;
+    top: 80px;
+    border-radius: 0;
+    border: 1px solid #000;
+}
+
+.character-arm-large.left {
+    left: 12px;
+}
+
+.character-arm-large.right {
+    right: 12px;
+}
+
+.character-leg-large {
+    width: 30px;
+    height: 62px;
+    background-color: #0066cc;
+    position: absolute;
+    top: 160px;
+    border-radius: 0;
+    border: 1px solid #000;
+}
+
+.character-leg-large.left {
+    left: 38px;
+}
+
+.character-leg-large.right {
+    right: 38px;
+}
+
+.editor-controls {
+    flex: 1;
+    background: white;
+    padding: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.control-group {
+    margin-bottom: 30px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 400;
+    color: var(--secondary-color);
+    font-size: 16px;
+}
+
+.control-group input[type="color"] {
+    width: 100%;
+    height: 50px;
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.control-group span {
+    font-size: 16px;
+    color: #666;
+}
+
+.color-presets {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.color-preset {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.color-preset:hover {
+    transform: scale(1.1);
+}
+
+.editor-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .editor-container {
+        flex-direction: column;
+    }
+
+    .avatar-preview-large {
+        width: 100%;
+    }
+
+    .character-preview-large {
+        width: 200px;
+        height: 300px;
+    }
+
+    .blocky-character-large {
+        width: 100px;
+        height: 167px;
+    }
+
+    .character-head-large {
+        width: 50px;
+        height: 50px;
+    }
+
+    .character-body-large {
+        width: 42px;
+        height: 50px;
+        top: 53px;
+    }
+
+    .character-arm-large {
+        width: 17px;
+        height: 42px;
+        top: 53px;
+    }
+
+    .character-arm-large.left {
+        left: 8px;
+    }
+
+    .character-arm-large.right {
+        right: 8px;
+    }
+
+    .character-leg-large {
+        width: 20px;
+        height: 42px;
+        top: 106px;
+    }
+
+    .character-leg-large.left {
+        left: 25px;
+    }
+
+    .character-leg-large.right {
+        right: 25px;
+    }
+
+    .color-presets {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

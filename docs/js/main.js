@@ -44,10 +44,20 @@ function toggleLike() {
     localStorage.setItem('torquan_hasLiked', hasLiked);
 }
 
-// Update online count (simulated)
-function updateOnlineCount() {
-    const onlineCount = Math.floor(Math.random() * 20) + 5;
-    document.getElementById('onlineUsers').textContent = onlineCount;
+// Update online count (real from server)
+async function updateOnlineCount() {
+    try {
+        const response = await fetch((window.API_BASE || '/api') + '/game/info');
+        const data = await response.json();
+        document.getElementById('onlineUsers').textContent = data.currentPlayers || 0;
+        document.getElementById('playingCount').textContent = data.currentPlayers || 0;
+    } catch (error) {
+        console.error('Error fetching online count:', error);
+        // Fallback to random if server not available
+        const onlineCount = Math.floor(Math.random() * 20) + 5;
+        document.getElementById('onlineUsers').textContent = onlineCount;
+        document.getElementById('playingCount').textContent = onlineCount;
+    }
 }
 
 // Initialize stats on page load

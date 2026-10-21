@@ -473,8 +473,8 @@ body {
         width: calc(100% - 40px);
         left: 20px;
         right: 20px;
-        bottom: 20px;
-        height: 300px;
+        bottom: 200px;
+        height: 250px;
     }
 
     .torquan-menu {
@@ -493,5 +493,24 @@ body {
 
     .mobile-controls {
         display: flex;
+        bottom: 20px;
+    }
+}
+
+/* Show mobile controls on small screens or for testing */
+@media (max-width: 1024px) {
+    .mobile-controls {
+        display: flex !important;
+    }
+}
+
+/* Force mobile controls to show for testing (remove in production) */
+.mobile-controls {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: flex !important;
     }
 }

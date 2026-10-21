@@ -18,6 +18,10 @@ function updateAuthUI() {
         navAuth.style.display = 'none';
         navUser.style.display = 'flex';
         navUsername.textContent = user.username;
+        navUsername.style.cursor = 'pointer';
+        navUsername.onclick = () => {
+            window.location.href = `profile.html?username=${user.username}`;
+        };
     } else {
         navAuth.style.display = 'flex';
         navUser.style.display = 'none';
@@ -109,6 +113,7 @@ function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     updateAuthUI();
+    window.location.href = 'index.html';
 }
 
 // Check for verification in URL

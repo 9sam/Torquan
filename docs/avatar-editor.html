@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torquan - Avatar Editor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>Torquan</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Games</a>
+                <a href="users.html" class="nav-link">People</a>
+                <a href="#" class="nav-link">Create</a>
+            </div>
+            <div class="nav-auth" id="navAuth">
+                <button class="btn btn-outline" onclick="showSignup()">Sign Up</button>
+                <button class="btn btn-primary" onclick="showLogin()">Log In</button>
+            </div>
+            <div class="nav-user" id="navUser" style="display: none;">
+                <div class="user-menu">
+                    <span id="navUsername">Username</span>
+                    <button class="btn btn-outline" onclick="logout()">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="avatar-editor-section">
+            <h1>Avatar Editor</h1>
+            <p>Customize your character!</p>
+
+            <div class="editor-container">
+                <div class="avatar-preview-large">
+                    <div class="character-preview-large">
+                        <div class="blocky-character-large" id="avatarCharacter">
+                            <div class="character-head-large">
+                                <div class="face-large">
+                                    <div class="eye-large left"></div>
+                                    <div class="eye-large right"></div>
+                                    <div class="smile-large"></div>
+                                </div>
+                            </div>
+                            <div class="character-body-large"></div>
+                            <div class="character-arm-large left"></div>
+                            <div class="character-arm-large right"></div>
+                            <div class="character-leg-large left"></div>
+                            <div class="character-leg-large right"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor-controls">
+                    <div class="control-group">
+                        <label>Body Color</label>
+                        <input type="color" id="bodyColorPicker" value="#00ff00" onchange="updateAvatarColor(this.value)">
+                        <div class="color-presets">
+                            <button class="color-preset" style="background-color: #00ff00" onclick="setColor('#00ff00')"></button>
+                            <button class="color-preset" style="background-color: #ff0000" onclick="setColor('#ff0000')"></button>
+                            <button class="color-preset" style="background-color: #0000ff" onclick="setColor('#0000ff')"></button>
+                            <button class="color-preset" style="background-color: #ffff00" onclick="setColor('#ffff00')"></button>
+                            <button class="color-preset" style="background-color: #ff00ff" onclick="setColor('#ff00ff')"></button>
+                            <button class="color-preset" style="background-color: #00ffff" onclick="setColor('#00ffff')"></button>
+                            <button class="color-preset" style="background-color: #ff8800" onclick="setColor('#ff8800')"></button>
+                            <button class="color-preset" style="background-color: #8800ff" onclick="setColor('#8800ff')"></button>
+                            <button class="color-preset" style="background-color: #ffffff" onclick="setColor('#ffffff')"></button>
+                            <button class="color-preset" style="background-color: #000000" onclick="setColor('#000000')"></button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Username</label>
+                        <span id="editorUsername">Guest</span>
+                    </div>
+
+                    <div class="editor-actions">
+                        <button class="btn btn-primary btn-full" onclick="saveAvatar()">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button class="btn btn-outline btn-full" onclick="goToGame()">
+                            <i class="fas fa-play"></i> Play Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/avatar-editor.js"></script>
+</body>
+</html>
